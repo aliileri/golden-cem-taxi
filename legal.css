@@ -1,12 +1,13 @@
-:root { --paper: #F1ECE1; --ink: #12110F; --muted: #4A453C; --line: #CDC4B0; --sign: #F4C300; }
+:root { --night: #0A1226; --ivory: #EFE7D6; --mist: #A9B0C4; --line: rgba(239,231,214,.14); --sign: #F5C400; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { max-width: 100%; overflow-x: hidden; }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 "Barlow", "Segoe UI", system-ui, sans-serif; }
-.legal { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
-.legal h1 { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase; font-weight: 600; letter-spacing: .005em; font-size: clamp(2rem, 6vw, 2.8rem); line-height: 1.1; margin: 18px 0 28px; }
-.legal h2 { font-size: 1.1rem; font-weight: 600; margin: 32px 0 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+body { margin: 0; background: var(--night); color: var(--ivory); font: 17px/1.65 "Barlow", "Segoe UI", system-ui, sans-serif; }
+.legal { max-width: 760px; margin: 0 auto; padding: 40px 16px 72px; }
+.legal h1 { font-family: "Bodoni Moda", Georgia, serif; font-weight: 500; font-size: clamp(2.2rem, 7vw, 3.2rem); line-height: 1.05; margin: 22px 0 28px; }
+.legal h2 { font-size: 1.1rem; font-weight: 600; margin: 34px 0 8px; padding-top: 18px; border-top: 1px solid var(--line); }
 .legal p, .legal li { margin: 0 0 10px; overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
 .legal ul { padding-left: 20px; }
-.legal a { color: var(--ink); }
+.legal a { color: var(--ivory); text-underline-offset: 3px; }
+.legal a:hover { text-decoration-color: var(--sign); }
 .back { font-size: .95rem; }
-.stand { color: var(--muted); font-size: .85rem; margin-top: 36px; }
+.stand { color: var(--mist); font-size: .85rem; margin-top: 36px; }
