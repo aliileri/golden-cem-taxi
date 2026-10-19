@@ -395,7 +395,7 @@ footer a { color: var(--ivory); text-underline-offset: 3px; }
     }
     var w = v('when') ? new Date(v('when')) : null;
     var ws = w ? p(w.getDate()) + '.' + p(w.getMonth() + 1) + '.' + w.getFullYear() + ', ' + p(w.getHours()) + ':' + p(w.getMinutes()) + ' Uhr' : 'so bald wie möglich';
-    var msg = 'Hallo Taxi Diez Adell, ich möchte eine Fahrt bestellen:\nVon: ' + v('from') + '\nNach: ' + v('to') + '\nWann: ' + ws + '\nPersonen: ' + v('pax');
+    var msg = 'Hallo, ich möchte eine Fahrt bestellen:\nVon: ' + v('from') + '\nNach: ' + v('to') + '\nWann: ' + ws + '\nPersonen: ' + v('pax');
     hint.textContent = 'WhatsApp wird geöffnet …';
     window.location.href = 'https://wa.me/491737206433?text=' + encodeURIComponent(msg);
   });
