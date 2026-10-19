@@ -1,0 +1,13 @@
+:root { --bg: #0B0A08; --ink: #F4EEE3; --muted: #A39A8A; --gold: #D6AE5C; --line: rgba(244,238,227,.13); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 "Hanken Grotesk", "Segoe UI", system-ui, sans-serif; }
+.legal { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
+.legal h1 { font-family: "Bodoni Moda", Georgia, serif; font-weight: 400; font-size: clamp(2.2rem, 7vw, 3.4rem); margin: 18px 0 28px; }
+.legal h2 { font-size: 1.05rem; font-weight: 600; margin: 32px 0 8px; color: var(--gold); }
+.legal h3 { font-size: 1rem; font-weight: 600; margin: 22px 0 6px; }
+.legal p, .legal li { color: var(--ink); margin: 0 0 10px; overflow-wrap: anywhere; word-break: break-word; hyphens: auto; -webkit-hyphens: auto; }
+html, body { max-width: 100%; overflow-x: hidden; }
+.legal ul { padding-left: 20px; }
+.legal a { color: var(--gold); }
+.back { font-size: .9rem; text-decoration: none; }
+.stand { color: var(--muted); font-size: .85rem; margin-top: 36px; border-top: 1px solid var(--line); padding-top: 14px; }
