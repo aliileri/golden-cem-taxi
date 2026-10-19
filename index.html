@@ -1,301 +1,280 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Taxi Diez Adell · Neu-Ulm</title>
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taxi Diez Adell · Taxi in Neu-Ulm</title>
+<meta name="description" content="Taxi in Neu-Ulm. Fahrten in Neu-Ulm und Ulm, nach Senden und zu den Flughäfen Memmingen, Stuttgart und München. Telefon und WhatsApp: 0173 7206433.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="fonts.css">
 <style>
-/* Layout: photo-led night palette. Full-bleed hero with booking card, swipeable photo cards, airport list, cinematic band, CTA. */
 :root {
-  --bg: #0B0A08;
-  --panel: #15130F;
-  --ink: #F4EEE3;
-  --muted: #A39A8A;
-  --gold: #D6AE5C;
-  --gold-hi: #F1D592;
-  --line: rgba(244, 238, 227, .13);
-  --serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --paper: #F7F5F0;
+  --card: #FFFFFF;
+  --ink: #161513;
+  --muted: #5B5750;
+  --line: #DDD8CE;
+  --ivory: #EADDC5;   /* angelehnt an Hellelfenbein (RAL 1015) */
+  --sign: #F4C300;    /* Taxi-Dachzeichen */
+  --wa: #1F8F4E;
   --sans: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
-  --mono: "DM Mono", ui-monospace, Consolas, monospace;
-  --gut: clamp(16px, 5vw, 64px);
-  color-scheme: dark;
+  --gut: clamp(16px, 4vw, 48px);
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.55; margin: 0; overflow-x: hidden; }
-img { display: block; max-width: 100%; }
-a { color: inherit; text-decoration: none; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-.wrap { max-width: 1280px; margin: 0 auto; padding-inline: var(--gut); }
-.label { font-family: var(--mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
-h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; text-wrap: balance; line-height: 1; letter-spacing: -.01em; }
-em { font-style: italic; color: var(--gold-hi); }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.55 var(--sans); overflow-x: hidden; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: var(--gut); }
+h1, h2, h3 { margin: 0; line-height: 1.1; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+.tnum { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-/* nav */
-.nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; padding-top: env(safe-area-inset-top, 0px); }
-.nav .wrap { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; gap: 16px; }
-.logo { display: flex; flex-direction: column; line-height: 1; }
-.logo b { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; letter-spacing: .01em; }
-.logo b i { color: var(--gold-hi); }
-.logo span { font-family: var(--mono); font-size: .6rem; letter-spacing: .32em; color: var(--muted); margin-top: 5px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: var(--sans); font-weight: 600; font-size: .95rem; padding: 14px 22px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); background: rgba(11,10,8,.35); backdrop-filter: blur(8px); cursor: pointer; transition: background .25s, border-color .25s, color .25s; }
-.btn:hover { border-color: var(--gold); }
-.btn.gold { background: var(--gold); border-color: var(--gold); color: #1A1407; }
-.btn.gold:hover { background: var(--gold-hi); }
-.btn svg { width: 18px; height: 18px; }
+/* header */
+.top { border-bottom: 1px solid var(--line); background: var(--paper); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 1.15rem; }
+.sign { background: var(--sign); color: #111; font-size: .72rem; font-weight: 700; letter-spacing: .12em; padding: 4px 8px 3px; border-radius: 4px; border: 1px solid #C99F00; }
+.top-tel { text-decoration: none; font-weight: 600; }
+.top-tel span { color: var(--muted); font-weight: 400; margin-right: 6px; }
 
-/* hero */
-.hero { position: relative; min-height: min(100svh, 920px); display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
-.hero img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 60%; z-index: -2; animation: settle 2.4s cubic-bezier(.2,.7,.2,1) both; }
-.hero::after { content: ""; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(180deg, rgba(11,10,8,.65) 0%, rgba(11,10,8,.15) 30%, rgba(11,10,8,.45) 60%, var(--bg) 100%); }
-@keyframes settle { from { transform: scale(1.12); filter: brightness(.6); } to { transform: scale(1); filter: brightness(1); } }
-.hero-in { width: 100%; padding-block: 130px 48px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: end; }
-.hero h1 { font-size: clamp(3.2rem, 8.6vw, 7.6rem); font-weight: 400; line-height: .92; animation: rise 1.2s .2s cubic-bezier(.2,.7,.2,1) both; }
-.hero p { margin: 18px 0 0; color: var(--muted); font-size: 1.05rem; max-width: 30ch; animation: rise 1.2s .35s cubic-bezier(.2,.7,.2,1) both; }
-@keyframes rise { from { transform: translateY(24px); } to { transform: none; } }
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 12px 22px; border-radius: 10px; font: 600 1.02rem var(--sans); text-decoration: none; border: 2px solid var(--ink); cursor: pointer; }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn-call { background: var(--ink); color: #fff; }
+.btn-call:hover { background: #333; }
+.btn-wa { background: transparent; color: var(--ink); }
+.btn-wa:hover { background: var(--card); }
 
-/* booking card */
-.book { background: rgba(21,19,15,.72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 10px; min-width: 0; }
-.book .label { margin-bottom: 4px; }
-.fld { display: grid; grid-template-columns: 22px 1fr; align-items: center; gap: 12px; background: rgba(244,238,227,.05); border: 1px solid transparent; border-radius: 14px; padding: 10px 14px; transition: border-color .2s; }
-.fld:focus-within { border-color: var(--gold); }
-.fld svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.fld label { display: block; font-family: var(--mono); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.fld input, .fld select { width: 100%; background: transparent; border: 0; color: var(--ink); font: 500 1rem var(--sans); padding: 2px 0 0; outline: none; min-width: 0; }
-.fld select option { background: var(--panel); }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.book .btn { width: 100%; margin-top: 4px; padding-block: 16px; }
-.book .hint { font-size: .8rem; color: var(--muted); text-align: center; min-height: 1.2em; margin: 0; }
+/* intro */
+.intro { padding-block: clamp(36px, 6vw, 72px) clamp(28px, 4vw, 48px); display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.intro h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); }
+.lead { font-size: clamp(1.08rem, 1.6vw, 1.25rem); color: var(--muted); max-width: 34ch; margin: 18px 0 26px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.facts { list-style: none; margin: 30px 0 0; padding: 0; display: grid; gap: 8px; color: var(--muted); font-size: .98rem; }
+.facts li { padding-left: 22px; position: relative; }
+.facts li::before { content: ""; position: absolute; left: 0; top: .55em; width: 10px; height: 10px; border-radius: 2px; background: var(--sign); border: 1px solid #C99F00; }
 
-/* trust strip */
-.trust { border-block: 1px solid var(--line); }
-.trust ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
-.trust li { padding: 20px 16px; display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--line); min-width: 0; }
-.trust li:first-child { border-left: 0; padding-left: 0; }
-.trust b { font-family: var(--serif); font-size: 1.45rem; font-weight: 500; }
-.trust span { font-size: .82rem; color: var(--muted); }
+/* booking form */
+.book { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: clamp(18px, 3vw, 28px); }
+.book h2 { font-size: 1.35rem; }
+.book .sub { margin: 6px 0 18px; color: var(--muted); font-size: .95rem; }
+.field { display: grid; gap: 6px; margin-bottom: 14px; }
+.field label { font-size: .9rem; font-weight: 600; }
+.field input, .field select { width: 100%; min-width: 0; min-height: 48px; padding: 10px 12px; border: 1px solid #BDB6A8; border-radius: 8px; background: #fff; color: var(--ink); font: 400 1rem var(--sans); }
+.field input:focus, .field select:focus { outline: 3px solid var(--sign); outline-offset: 0; border-color: var(--ink); }
+.two { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+.book .btn { width: 100%; background: var(--wa); border-color: var(--wa); color: #fff; margin-top: 4px; }
+.book .btn:hover { background: #18773F; }
+.note { font-size: .84rem; color: var(--muted); margin: 12px 0 0; }
+.hint { min-height: 1.3em; font-size: .9rem; margin: 10px 0 0; font-weight: 600; }
 
-/* services */
-.sec { padding-block: clamp(64px, 10vw, 128px); }
-.sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 32px; margin-bottom: 32px; }
-.sec-head h2 { font-size: clamp(2.4rem, 6vw, 4.6rem); }
-.swipe-hint { font-family: var(--mono); font-size: .7rem; letter-spacing: .16em; color: var(--muted); text-transform: uppercase; }
-.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.card { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 3 / 4.2; max-width: 100%; isolation: isolate; min-width: 0; }
-.card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .9s cubic-bezier(.2,.7,.2,1); }
-.card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(11,10,8,0) 35%, rgba(11,10,8,.88) 100%); }
-.card:hover img { transform: scale(1.07); }
-.card .txt { position: absolute; left: 20px; right: 20px; bottom: 20px; }
-.card h3 { font-size: clamp(1.8rem, 2.6vw, 2.3rem); }
-.card p { margin: 6px 0 0; color: var(--muted); font-size: .92rem; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; padding: 0; list-style: none; }
-.chips li { border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: .9rem; color: var(--ink); }
+/* photo */
+.photo { margin: 0; }
+.photo img { width: 100%; aspect-ratio: 2.1 / 1; object-fit: cover; }
+.photo figcaption, .place figcaption { font-size: .8rem; color: var(--muted); padding-top: 8px; }
 
-/* airports */
-.air { padding-top: 0; display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(28px, 6vw, 80px); align-items: center; }
-.air-img { border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 5; max-width: 100%; }
-.air-img img { width: 100%; height: 100%; object-fit: cover; }
-.air h2 { font-size: clamp(2.4rem, 6vw, 4.6rem); margin: 12px 0 28px; }
-.dest { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-.dest li { display: grid; grid-template-columns: 4.2em 1fr auto; align-items: baseline; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
-.dest .code { font-family: var(--mono); color: var(--gold); font-size: .95rem; letter-spacing: .08em; }
-.dest .city { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.1; min-width: 0; }
-.dest .km { font-family: var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: .9rem; }
-.small { font-size: .78rem; color: var(--muted); margin-top: 12px; }
+/* sections */
+.sec { padding-block: clamp(48px, 8vw, 96px); }
+.sec + .sec { border-top: 1px solid var(--line); }
+.sec h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.sec .intro-text { color: var(--muted); max-width: 60ch; margin: 12px 0 32px; }
 
-/* cinematic band */
-.band { position: relative; min-height: clamp(380px, 70vw, 720px); display: grid; place-items: center; overflow: hidden; isolation: isolate; text-align: center; }
-.band img { position: absolute; inset: -8% 0; width: 100%; height: 116%; object-fit: cover; z-index: -2; will-change: transform; }
-.band::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at center, rgba(11,10,8,.25), rgba(11,10,8,.8)); }
-.band h2 { font-size: clamp(2.6rem, 8vw, 6.6rem); line-height: .98; padding-inline: var(--gut); }
+.places { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.4vw, 28px); }
+.place { margin: 0; }
+.place img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; }
+.place h3 { font-size: 1.3rem; margin-top: 14px; }
+.place p { margin: 6px 0 0; color: var(--muted); }
 
-/* cta */
-.cta { text-align: center; }
-.cta h2 { font-size: clamp(2.8rem, 9vw, 7.4rem); line-height: .95; }
-.cta-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
-.contact-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 36px; margin-top: 36px; font-family: var(--mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.contact-row b { color: var(--ink); font-weight: 500; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); }
+.airports { list-style: none; margin: 20px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.airports li { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.airports b { font-weight: 600; }
+.airports span { color: var(--muted); }
+.small { font-size: .88rem; color: var(--muted); margin-top: 12px; }
+.prices p { margin: 14px 0 0; }
 
-footer { border-top: 1px solid var(--line); }
-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 22px calc(22px + env(safe-area-inset-bottom, 0px)); font-size: .78rem; color: var(--muted); }
-.preview { position: fixed; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 9; font-family: var(--mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; background: rgba(21,19,15,.85); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; color: var(--muted); }
+.good { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.good li { background: var(--ivory); border-radius: 10px; padding: 18px 20px; }
+.good b { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+.good span { color: #4A453D; font-size: .95rem; }
 
-/* tablet */
-@media (max-width: 1000px) {
-  .hero-in { grid-template-columns: 1fr; gap: 28px; }
-  .cards { grid-template-columns: repeat(2, 1fr); }
-  .air { grid-template-columns: 1fr; }
-  .air-img { aspect-ratio: 16 / 10; }
+/* contact */
+.contact { background: var(--ink); color: #fff; }
+.contact .wrap { padding-block: clamp(44px, 7vw, 80px); display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: end; }
+.contact h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.contact .big { display: inline-block; margin-top: 14px; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 600; text-decoration: none; border-bottom: 3px solid var(--sign); }
+.contact address { font-style: normal; color: #CFCAC0; line-height: 1.7; }
+.contact .btn-call { background: var(--sign); color: #111; border-color: var(--sign); }
+.contact .btn-wa { color: #fff; border-color: #fff; }
+.contact .btn-wa:hover { background: #2a2925; }
+.contact .actions { margin-top: 22px; }
+
+footer { background: var(--ink); color: #A9A398; border-top: 1px solid #333; font-size: .86rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 20px; }
+footer a { color: #fff; }
+.preview { position: fixed; right: 12px; bottom: 12px; z-index: 9; font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: var(--sign); color: #111; border-radius: 4px; padding: 4px 8px; }
+
+@media (max-width: 900px) {
+  .intro { grid-template-columns: 1fr; }
+  .split { grid-template-columns: 1fr; }
+  .good { grid-template-columns: 1fr; }
+  .contact .wrap { grid-template-columns: 1fr; align-items: start; }
 }
-/* phone */
-@media (max-width: 640px) {
-  .hero { min-height: auto; }
-  .hero img.bg { height: 470px; bottom: auto; object-position: 75% 100%; }
-  .hero::after { background: linear-gradient(180deg, rgba(11,10,8,.6) 0%, rgba(11,10,8,0) 22%, rgba(11,10,8,.1) 60%, var(--bg) 470px, var(--bg) 100%); }
-  .hero-in { padding-block: 380px 28px; }
-  .trust ul { grid-template-columns: 1fr 1fr; }
-  .trust li:nth-child(3) { border-left: 0; padding-left: 0; }
-  .trust li:nth-child(n+3) { border-top: 1px solid var(--line); }
-  .cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(var(--gut) * -1); padding-inline: var(--gut); scrollbar-width: none; }
-  .cards::-webkit-scrollbar { display: none; }
-  .card { flex: 0 0 76%; scroll-snap-align: start; scroll-margin-left: var(--gut); }
-  .row2 { grid-template-columns: 1fr; }
-  .nav .btn { padding: 11px 16px; font-size: .88rem; }
-}
-@media (min-width: 641px) { .swipe-hint { display: none; } }
-@media (prefers-reduced-motion: reduce) {
-  .hero img.bg, .hero h1, .hero p { animation: none; }
-  html { scroll-behavior: auto; }
+@media (max-width: 700px) {
+  .places { grid-template-columns: 1fr; }
+  .place img { aspect-ratio: 4 / 3; }
+  .photo img { aspect-ratio: 16 / 10; }
+  .top-tel span { display: none; }
+  .actions .btn { flex: 1 1 100%; }
+  .two { grid-template-columns: 1fr; }
 }
 </style>
+</head>
+<body>
 
-<nav class="nav" aria-label="Navigation">
+<header class="top">
   <div class="wrap">
-    <a class="logo" href="#top"><b>Taxi <i>Diez Adell</i></b><span>TAXI · NEU-ULM</span></a>
-    <a class="btn" href="tel:+491737206433">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
-      Anrufen
-    </a>
-  </div>
-</nav>
-
-<header class="hero" id="top">
-  <img class="bg" src="img/hero.jpg" alt="Leuchtende Taxischilder bei Nacht">
-  <div class="wrap hero-in">
-    <div>
-      <p class="label" style="margin:0 0 18px">Neu-Ulm · Ulm · Senden</p>
-      <h1>Wir fahren <em>vor.</em></h1>
-      <p>Taxi, Transfer und Fernfahrt. Von Ihrer Haustür bis ans Ziel.</p>
-    </div>
-    <form class="book" id="ride" novalidate>
-      <span class="label">Fahrt anfragen</span>
-      <div class="fld">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/></svg>
-        <div><label for="from">Abholung</label><input id="from" value="Neu-Ulm, Bahnhof" autocomplete="off"></div>
-      </div>
-      <div class="fld">
-        <svg viewBox="0 0 24 24"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>
-        <div><label for="to">Ziel</label><input id="to" value="Flughafen München" autocomplete="off"></div>
-      </div>
-      <div class="row2">
-        <div class="fld">
-          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-          <div><label for="when">Wann</label><input id="when" type="datetime-local"></div>
-        </div>
-        <div class="fld">
-          <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 4a3 3 0 0 1 0 6M21 20c0-2.6-1.6-4.8-4-5.6"/></svg>
-          <div><label for="pax">Personen</label>
-            <select id="pax"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
-        </div>
-      </div>
-      <button class="btn gold" type="submit">Per WhatsApp anfragen</button>
-      <p class="hint" id="hint" aria-live="polite"></p>
-    </form>
+    <a class="brand" href="#top" id="top"><span class="sign">TAXI</span>Diez Adell</a>
+    <a class="top-tel tnum" href="tel:+491737206433"><span>Bestellung</span>0173 7206433</a>
   </div>
 </header>
 
-<section class="trust" aria-label="Auf einen Blick">
+<main>
+  <section class="wrap intro">
+    <div>
+      <h1>Ihr Taxi in Neu-Ulm</h1>
+      <p class="lead">Fahrten in Neu-Ulm und Ulm, nach Senden und zu den Flughäfen. Rufen Sie an oder schreiben Sie uns per WhatsApp.</p>
+      <div class="actions">
+        <a class="btn btn-call" href="tel:+491737206433">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+          <span class="tnum">0173 7206433</span> anrufen
+        </a>
+        <a class="btn btn-wa" href="https://wa.me/491737206433" rel="noopener">WhatsApp schreiben</a>
+      </div>
+      <ul class="facts">
+        <li>Inhaber Ignacio Diez Adell, Betriebssitz Neu-Ulm</li>
+        <li>Taxi-Genehmigung des Landratsamts Neu-Ulm (§ 47 PBefG)</li>
+        <li>Bis 4 Fahrgäste, Vorbestellung möglich</li>
+      </ul>
+    </div>
+
+    <form class="book" id="ride" novalidate>
+      <h2>Fahrt vorbestellen</h2>
+      <p class="sub">Das Formular erstellt eine WhatsApp-Nachricht an uns.</p>
+      <div class="field"><label for="from">Abholadresse</label><input id="from" autocomplete="street-address" placeholder="z. B. Bahnhof Neu-Ulm"></div>
+      <div class="field"><label for="to">Ziel</label><input id="to" autocomplete="off" placeholder="z. B. Flughafen Memmingen"></div>
+      <div class="two">
+        <div class="field"><label for="when">Datum und Uhrzeit</label><input id="when" type="datetime-local"></div>
+        <div class="field"><label for="pax">Personen</label>
+          <select id="pax"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+      </div>
+      <button class="btn" type="submit">Anfrage per WhatsApp senden</button>
+      <p class="hint" id="hint" role="status"></p>
+      <p class="note">Die Fahrt ist erst gebucht, wenn wir sie bestätigen. Ihre Angaben werden auf dieser Website nicht gespeichert. <a href="datenschutz.html">Datenschutz</a></p>
+    </form>
+  </section>
+
+  <figure class="photo">
+    <img src="img/donau-2000.jpg" srcset="img/donau-1000.jpg 1000w, img/donau-2000.jpg 2000w" sizes="100vw" width="2000" height="952" alt="Die Donau zwischen Ulm und Neu-Ulm, links das Ulmer Münster und die Stadtmauer mit dem Metzgerturm">
+    <figcaption class="wrap">Die Donau zwischen Ulm und Neu-Ulm, links das Ulmer Münster.</figcaption>
+  </figure>
+
+  <section class="sec wrap" aria-labelledby="h-wohin">
+    <h2 id="h-wohin">Wohin wir fahren</h2>
+    <p class="intro-text">Unser Taxi steht in Neu-Ulm. Nach Ulm und Senden fahren wir auf Bestellung, ebenso zu Bahnhöfen und Flughäfen.</p>
+    <div class="places">
+      <figure class="place">
+        <img src="img/neu-ulm-600.jpg" srcset="img/neu-ulm-600.jpg 600w, img/neu-ulm-1000.jpg 1000w" sizes="(max-width: 700px) 100vw, 33vw" width="600" height="750" loading="lazy" alt="Die Kleine Donau in Neu-Ulm im Herbst">
+        <h3>Neu-Ulm</h3>
+        <p>Einkauf, Arzttermin, Feierabend: kurze Wege in der Stadt und in den Stadtteilen.</p>
+      </figure>
+      <figure class="place">
+        <img src="img/ulm-600.jpg" srcset="img/ulm-600.jpg 600w, img/ulm-1000.jpg 1000w" sizes="(max-width: 700px) 100vw, 33vw" width="600" height="750" loading="lazy" alt="Der Metzgerturm hinter der Ulmer Stadtmauer">
+        <h3>Ulm</h3>
+        <p>Über die Donau in die Ulmer Innenstadt, zur Universität oder zu den Kliniken.</p>
+      </figure>
+      <figure class="place">
+        <img src="img/bahnhof-600.jpg" srcset="img/bahnhof-600.jpg 600w, img/bahnhof-1000.jpg 1000w" sizes="(max-width: 700px) 100vw, 33vw" width="600" height="750" loading="lazy" alt="Ein Regionalzug im Bahnhof Neu-Ulm" style="object-position: 50% 85%">
+        <h3>Bahnhof</h3>
+        <p>Zum Zug oder vom Zug nach Hause, ab Bahnhof Neu-Ulm und Ulm Hauptbahnhof.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec wrap split" aria-label="Flughafen und Preise">
+    <div>
+      <h2>Zum Flughafen</h2>
+      <ul class="airports">
+        <li><b>Memmingen (FMM)</b><span class="tnum">ca. 60 km</span></li>
+        <li><b>Stuttgart (STR)</b><span class="tnum">ca. 90 km</span></li>
+        <li><b>München (MUC)</b><span class="tnum">ca. 160 km</span></li>
+      </ul>
+      <p class="small">Entfernungen ab Neu-Ulm, je nach Strecke. Für frühe Flüge bitte am Vortag bestellen.</p>
+    </div>
+    <div class="prices">
+      <h2>Preise</h2>
+      <p>Im Landkreis Neu-Ulm und in der Stadt Ulm gilt die Taxitarifordnung des Landkreises Neu-Ulm. Abgerechnet wird nach Taxameter.</p>
+      <p>Für Fahrten darüber hinaus, zum Beispiel zum Flughafen, können wir den Fahrpreis vor der Fahrt mit Ihnen vereinbaren. Fragen Sie einfach bei der Bestellung.</p>
+    </div>
+  </section>
+
+  <section class="sec wrap" aria-labelledby="h-gut">
+    <h2 id="h-gut" style="margin-bottom:24px">Gut zu wissen</h2>
+    <ul class="good">
+      <li><b>Bis 4 Fahrgäste</b><span>Ein Fahrzeug. Bei viel Gepäck sagen Sie es uns bitte bei der Bestellung.</span></li>
+      <li><b>Arzt und Klinik</b><span>Als Privatfahrt. Eine Abrechnung mit der Krankenkasse ist nicht möglich.</span></li>
+      <li><b>Vorbestellung</b><span>Am einfachsten per WhatsApp oder Telefon, gern auch Tage im Voraus.</span></li>
+    </ul>
+  </section>
+</main>
+
+<section class="contact" aria-labelledby="h-kontakt">
   <div class="wrap">
-    <ul>
-      <li><b>Tür zu Tür</b><span>Abholung an Ihrer Adresse</span></li>
-      <li><b>Festpreis</b><span>Für Fernfahrten auf Anfrage</span></li>
-      <li><b>Europaweit</b><span>Auch ins Ausland</span></li>
-      <li><b>Konzessioniert</b><span>Taxi nach § 47 PBefG</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="sec wrap" aria-label="Leistungen">
-  <div class="sec-head">
-    <h2>Für jeden <em>Anlass.</em></h2>
-    <span class="swipe-hint">Wischen →</span>
-  </div>
-  <div class="cards">
-    <article class="card"><img src="img/airport.jpg" alt="Lichtspuren auf der Autobahn bei Nacht" loading="lazy"><div class="txt"><h3>Flughafen</h3><p>Pünktlich zum Abflug</p></div></article>
-    <article class="card"><img src="img/business.jpg" alt="Blick aus dem Fahrzeuginneren bei Nacht" loading="lazy"><div class="txt"><h3>Business</h3><p>Diskret. Pünktlich.</p></div></article>
-    <article class="card"><img src="img/door.jpg" alt="Taxameter vor nächtlichen Lichtern" loading="lazy"><div class="txt"><h3>Arzt &amp; Klinik</h3><p>Privatfahrten, keine Abrechnung mit Krankenkassen</p></div></article>
-    <article class="card"><img src="img/events.jpg" alt="Stadt in der Abenddämmerung" loading="lazy"><div class="txt"><h3>Messe &amp; Event</h3><p>Hin und sicher heim</p></div></article>
-  </div>
-  <ul class="chips" aria-label="Weitere Leistungen">
-    <li>Tür-zu-Tür</li><li>Hotel &amp; Bahnhof</li><li>Gepäcktransfer</li><li>Langstrecke Europa</li>
-  </ul>
-</section>
-
-<section class="sec wrap air" aria-label="Flughafentransfer">
-  <div class="air-img"><img src="img/road.jpg" alt="Geschwungene Lichtspuren auf einer Schnellstraße" loading="lazy"></div>
-  <div>
-    <p class="label">Flughafentransfer</p>
-    <h2>Abflug? <em>Entspannt.</em></h2>
-    <ul class="dest">
-      <li><span class="code">FMM</span><span class="city">Memmingen</span><span class="km">ca. 60 km</span></li>
-      <li><span class="code">STR</span><span class="city">Stuttgart</span><span class="km">ca. 90 km</span></li>
-      <li><span class="code">MUC</span><span class="city">München</span><span class="km">ca. 160 km</span></li>
-    </ul>
-    <p class="small">Ab Neu-Ulm. Festpreis auf Anfrage.</p>
-  </div>
-</section>
-
-<section class="band" aria-label="Fahrgefühl">
-  <img id="parallax" src="img/drive.jpg" alt="Nachtfahrt mit Lichtspuren durch die Windschutzscheibe" loading="lazy">
-  <h2>Sie lehnen sich zurück.<br><em>Wir fahren.</em></h2>
-</section>
-
-<section class="sec wrap cta" id="kontakt" aria-label="Kontakt">
-  <p class="label">Kontakt</p>
-  <h2 style="margin-top:14px">Wohin darf's <em>gehen?</em></h2>
-  <div class="cta-btns">
-    <a class="btn gold" href="#top">Fahrt anfragen</a>
-    <a class="btn" href="https://wa.me/491737206433" rel="noopener">WhatsApp</a>
-  </div>
-  <div class="contact-row">
-    <span>Telefon <b><a href="tel:+491737206433">+49 173 7206433</a></b></span>
-    <span>WhatsApp <b><a href="https://wa.me/491737206433" rel="noopener">+49 173 7206433</a></b></span>
-    <span>Neu-Ulm · Ulm &amp; Senden auf Vorbestellung</span>
+    <div>
+      <h2 id="h-kontakt">Taxi bestellen</h2>
+      <a class="big tnum" href="tel:+491737206433">0173 7206433</a>
+      <div class="actions">
+        <a class="btn btn-call" href="tel:+491737206433">Anrufen</a>
+        <a class="btn btn-wa" href="https://wa.me/491737206433" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <address>
+      Taxi Diez Adell<br>
+      Inhaber Ignacio Diez Adell<br>
+      Julius-Rohm-Platz 1, 89231 Neu-Ulm
+    </address>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>© 2026 Taxi Diez Adell · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></span>
-    <span>Fotos: rawpixel, StockSnap (CC0)</span>
+    <span>© 2026 Taxi Diez Adell</span>
+    <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="impressum.html#bildnachweis">Bildnachweis</a></span>
   </div>
 </footer>
 
-<div class="preview">Vorschau</div>
+<div class="preview" aria-hidden="true">Vorschau</div>
 
 <script>
 (function () {
-  var when = document.getElementById('when');
-  var d = new Date(); d.setDate(d.getDate() + 1); d.setHours(5, 30, 0, 0);
-  var p = function (n) { return String(n).padStart(2, '0'); };
-  when.value = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T05:30';
-
   var f = document.getElementById('ride'), hint = document.getElementById('hint');
+  var p = function (n) { return String(n).padStart(2, '0'); };
   f.addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = function (id) { return document.getElementById(id).value.trim() || '–'; };
-    var w = when.value ? new Date(when.value) : null;
-    var ws = w ? p(w.getDate()) + '.' + p(w.getMonth() + 1) + '.' + w.getFullYear() + ', ' + p(w.getHours()) + ':' + p(w.getMinutes()) + ' Uhr' : '–';
-    var msg = 'Hallo Taxi Diez Adell, ich möchte eine Fahrt anfragen:\nVon: ' + v('from') + '\nNach: ' + v('to') + '\nWann: ' + ws + '\nPersonen: ' + v('pax');
+    var v = function (id) { return document.getElementById(id).value.trim(); };
+    if (!v('from') || !v('to')) {
+      hint.textContent = 'Bitte Abholadresse und Ziel angeben.';
+      (v('from') ? document.getElementById('to') : document.getElementById('from')).focus();
+      return;
+    }
+    var w = v('when') ? new Date(v('when')) : null;
+    var ws = w ? p(w.getDate()) + '.' + p(w.getMonth() + 1) + '.' + w.getFullYear() + ', ' + p(w.getHours()) + ':' + p(w.getMinutes()) + ' Uhr' : 'so bald wie möglich';
+    var msg = 'Hallo Taxi Diez Adell, ich möchte eine Fahrt bestellen:\nVon: ' + v('from') + '\nNach: ' + v('to') + '\nWann: ' + ws + '\nPersonen: ' + v('pax');
     hint.textContent = 'WhatsApp wird geöffnet …';
     window.location.href = 'https://wa.me/491737206433?text=' + encodeURIComponent(msg);
   });
-
-  // gentle parallax on the cinematic band
-  var img = document.getElementById('parallax');
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && img) {
-    var band = img.parentElement, ticking = false;
-    var move = function () {
-      var r = band.getBoundingClientRect(), vh = window.innerHeight;
-      if (r.bottom > 0 && r.top < vh) {
-        var k = (r.top + r.height / 2 - vh / 2) / vh;
-        img.style.transform = 'translateY(' + (k * -6).toFixed(2) + '%)';
-      }
-      ticking = false;
-    };
-    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
-    move();
-  }
 })();
 </script>
-
-</body></html>
+</body>
+</html>
