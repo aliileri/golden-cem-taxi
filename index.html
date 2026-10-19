@@ -11,6 +11,19 @@
 <link rel="preload" href="img/muenster-nacht-2400.jpg" as="image" media="(min-width: 761px)">
 <link rel="preload" href="img/muenster-nacht-hoch-1200.jpg" as="image" media="(max-width: 760px)">
 <link rel="stylesheet" href="fonts.css">
+<script>
+  // Bewegung nur, wenn erwünscht; ohne JavaScript bleibt alles sichtbar
+  (function () {
+    var d = document.documentElement;
+    if (window.matchMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      d.classList.add('motion');
+      // Vorspann nur beim Ankommen von außen; kein Speichern im Browser (§ 25 TDDDG)
+      var own = false;
+      try { own = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+      if (!own) d.classList.add('intro');
+    }
+  })();
+</script>
 <style>
 /* Blaue Stunde über dem Ulmer Münster: Grundfarbe aus dem Himmel des Titelfotos,
    Text in Hellelfenbein (RAL 1015, die deutsche Taxifarbe), Gelb nur dort, wo im Taxi Licht ist. */
@@ -25,30 +38,50 @@
   --sans: "Barlow", "Segoe UI", system-ui, sans-serif;
   --gut: clamp(16px, 5vw, 72px);
   --max: 1320px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
 body { margin: 0; background: var(--night); color: var(--ivory); font: 400 18px/1.6 var(--sans); overflow-x: hidden; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--sign); outline-offset: 3px; }
 .wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gut); }
-h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.01em; line-height: 1.02; margin: 0; text-wrap: balance; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.01em; line-height: 1.04; margin: 0; text-wrap: balance; }
 .num { font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
 figure { margin: 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Filmkorn über allem, sehr leise */
+.grain { position: fixed; inset: -50%; z-index: 60; pointer-events: none; opacity: .07; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.motion .grain { animation: grain .9s steps(4) infinite; }
+@keyframes grain { 0% { transform: translate(0, 0); } 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } 100% { transform: translate(1%, 3%); } }
+
+/* Vorspann: das Dachzeichen geht an, dann hebt sich der Vorhang */
+.loader { display: none; }
+.intro .loader { display: grid; position: fixed; inset: 0; z-index: 80; background: #060B18; place-items: center; animation: loaderFailsafe .01s 4s forwards; }
+@keyframes loaderFailsafe { to { visibility: hidden; } }
+.loader .sign { width: 150px; height: 44px; border-radius: 11px 11px 3px 3px; background: #2C2B26; color: #5E5A4E; display: grid; place-items: center; font: 600 1.15rem var(--sans); letter-spacing: .3em; padding-left: .3em; }
+.loader .sign.on { background: var(--sign); color: #1A1708; box-shadow: 0 0 30px 4px rgba(245,196,0,.5), 0 0 120px 30px rgba(245,196,0,.16); }
+.loader p { position: absolute; bottom: 9vh; left: 0; right: 0; text-align: center; font-family: var(--serif); font-size: 1.1rem; color: var(--mist); margin: 0; }
 
 /* Navigation */
-.nav { position: absolute; inset: 0 0 auto; z-index: 3; padding-top: env(safe-area-inset-top, 0px); }
-.nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 22px; }
+.nav { position: fixed; inset: 0 0 auto; z-index: 40; padding-top: env(safe-area-inset-top, 0px); transition: transform .5s var(--ease), background-color .4s, backdrop-filter .4s; }
+.nav.solid { background: rgba(10,18,38,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.nav.hide { transform: translateY(-110%); }
+.nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 18px; }
 .brand { font-family: var(--serif); font-size: 1.45rem; font-weight: 500; text-decoration: none; }
-.nav-tel { font-weight: 500; font-size: 1.05rem; text-decoration: none; padding: 10px 18px; border: 1px solid var(--line); border-radius: 999px; background: rgba(10,18,38,.35); }
+.nav-tel { font-weight: 500; font-size: 1.05rem; text-decoration: none; padding: 10px 18px; border: 1px solid var(--line); border-radius: 999px; background: rgba(10,18,38,.35); display: inline-block; }
 .nav-tel:hover { border-color: var(--ivory); }
 
 /* Titel */
 .hero { position: relative; min-height: min(100svh, 980px); display: flex; align-items: flex-end; isolation: isolate; overflow: hidden; }
-.hero picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; z-index: -2; animation: dawn 1.6s cubic-bezier(.2,.7,.2,1) both; }
-@keyframes dawn { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+.hero-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; transform-origin: 50% 40%; }
 .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,18,38,.55) 0%, rgba(10,18,38,0) 26%, rgba(10,18,38,0) 58%, var(--night) 100%); }
 .hero-in { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 48px; align-items: end; padding-block: 140px clamp(40px, 6vw, 80px); }
 .hero h1 { font-size: clamp(3.1rem, 7.4vw, 6.6rem); max-width: 9ch; }
@@ -56,67 +89,87 @@ figure { margin: 0; }
 .hero .owner { margin: 14px 0 0; font-size: .95rem; color: var(--mist); }
 
 /* Bestellkarte: die Karte ist das Wagendach, darauf das Dachzeichen */
-.order { position: relative; background: var(--night-2); border: 1px solid var(--line); border-radius: 18px; padding: 40px 26px 24px; margin-top: 34px; }
-.roof { position: absolute; top: 0; left: 50%; transform: translate(-50%, -100%); width: 116px; height: 34px; background: #3B3A33; border-radius: 9px 9px 2px 2px; display: grid; place-items: center; font: 600 .95rem var(--sans); letter-spacing: .26em; padding-left: .26em; color: #1A1708; animation: lightOn .5s 1.1s steps(2, end) both; }
+.order { position: relative; background: var(--night-2); border: 1px solid var(--line); border-radius: 18px; padding: 40px 26px 24px; margin-top: 34px; box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); }
+.roof { position: absolute; top: 0; left: 50%; transform: translate(-50%, -100%); width: 116px; height: 34px; background: var(--sign); border-radius: 9px 9px 2px 2px; display: grid; place-items: center; font: 600 .95rem var(--sans); letter-spacing: .26em; padding-left: .26em; color: #1A1708; box-shadow: 0 0 22px 2px rgba(245,196,0,.45), 0 0 70px 10px rgba(245,196,0,.14); }
 .roof::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: -5px; height: 5px; background: #23232A; border-radius: 0 0 3px 3px; }
-@keyframes lightOn { from { background: #3B3A33; box-shadow: none; color: #6A6658; } to { background: var(--sign); box-shadow: 0 0 22px 2px rgba(245,196,0,.45), 0 0 70px 10px rgba(245,196,0,.14); color: #1A1708; } }
+.motion .roof { background: #3B3A33; color: #6A6658; box-shadow: none; }
+.roof.on { background: var(--sign) !important; color: #1A1708 !important; box-shadow: 0 0 22px 2px rgba(245,196,0,.45), 0 0 70px 10px rgba(245,196,0,.14) !important; }
 .order h2 { font-size: 1.7rem; }
 .order .sub { color: var(--mist); font-size: .95rem; margin: 6px 0 20px; }
 .field { display: grid; gap: 5px; margin-bottom: 14px; min-width: 0; }
 .field label { font-size: .88rem; font-weight: 500; color: var(--mist); }
-.field input, .field select { width: 100%; min-width: 0; min-height: 48px; padding: 10px 13px; background: rgba(239,231,214,.06); border: 1px solid rgba(239,231,214,.16); border-radius: 10px; color: var(--ivory); font: 400 1.02rem var(--sans); }
+.field input, .field select { width: 100%; min-width: 0; min-height: 48px; padding: 10px 13px; background: rgba(239,231,214,.06); border: 1px solid rgba(239,231,214,.16); border-radius: 10px; color: var(--ivory); font: 400 1.02rem var(--sans); transition: border-color .25s, background-color .25s; }
 .field input::placeholder { color: #7F8799; }
 .field input:focus, .field select:focus { outline: none; border-color: var(--sign); background: rgba(239,231,214,.09); }
 .field select option { background: var(--night-2); }
 .pair-f { display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 13px 24px; border-radius: 999px; font: 600 1.05rem var(--sans); text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: background .2s, border-color .2s; }
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 13px 26px; border-radius: 999px; font: 600 1.05rem var(--sans); text-decoration: none; cursor: pointer; border: 1px solid transparent; overflow: hidden; isolation: isolate; transition: color .35s var(--ease), border-color .35s; }
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; transform: translateY(101%); transition: transform .45s var(--ease); }
+.btn:hover::before { transform: none; }
 .btn-sign { background: var(--sign); color: #15130A; }
-.btn-sign:hover { background: #FFD53A; }
+.btn-sign::before { background: #FFE17A; }
 .btn-ghost { border-color: var(--line); color: var(--ivory); background: transparent; }
-.btn-ghost:hover { border-color: var(--ivory); }
+.btn-ghost::before { background: var(--ivory); }
+.btn-ghost:hover { color: var(--night); border-color: var(--ivory); }
 .order .btn { width: 100%; margin-top: 4px; }
 .order .fine { font-size: .84rem; color: var(--mist); margin: 14px 0 0; }
 .order .fine a { color: var(--ivory); }
 .hint { min-height: 1.3em; margin: 10px 0 0; font-weight: 500; color: var(--sign); font-size: .95rem; }
 
+/* Laufband mit den Zielen */
+.marquee { overflow: hidden; padding-block: clamp(28px, 4vw, 52px); border-bottom: 1px solid var(--line); }
+.marquee-track { display: flex; width: max-content; will-change: transform; }
+.marquee-group { display: flex; align-items: center; flex: none; }
+.marquee span { font-family: var(--serif); font-size: clamp(3rem, 8vw, 7.5rem); line-height: 1; white-space: nowrap; padding-inline: .35em; color: transparent; -webkit-text-stroke: 1px rgba(239,231,214,.55); }
+.marquee span.fill { color: var(--ivory); -webkit-text-stroke: 0; }
+.marquee i { width: .32em; height: .32em; flex: none; border-radius: 50%; background: var(--sign); font-size: clamp(3rem, 8vw, 7.5rem); box-shadow: 0 0 20px rgba(245,196,0,.5); }
+
 /* Auf einen Blick */
-.glance { border-block: 1px solid var(--line); }
 .glance ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
-.glance li { padding: 24px 20px; border-left: 1px solid var(--line); min-width: 0; }
+.glance li { padding: 26px 20px; border-left: 1px solid var(--line); min-width: 0; }
 .glance li:first-child { border-left: 0; padding-left: 0; }
 .glance b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.4rem; line-height: 1.15; }
 .glance span { font-size: .92rem; color: var(--mist); }
 
 /* Abschnitte */
 .sec { padding-block: clamp(80px, 10vw, 150px); }
-.sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px 32px; margin-bottom: 34px; }
 .sec h2 { font-size: clamp(2.3rem, 4.8vw, 4rem); }
-.swipe { font-size: .95rem; color: var(--mist); }
 
-/* Fotokarten */
-.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.card { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 3 / 4.2; isolation: isolate; min-width: 0; background: var(--night-2); }
-.card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform 1.1s cubic-bezier(.2,.7,.2,1); }
-.card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,18,38,0) 40%, rgba(10,18,38,.92) 100%); }
-.card:hover img { transform: scale(1.05); }
-.card .txt { position: absolute; left: 22px; right: 22px; bottom: 22px; }
-.card h3 { font-size: clamp(1.7rem, 2.4vw, 2.2rem); }
-.card p { margin: 6px 0 0; color: #CBD0DC; font-size: .95rem; line-height: 1.45; }
+/* Fahrten: auf großen Bildschirmen fährt die Reihe seitlich vorbei */
+.rides { padding-block: clamp(80px, 10vw, 140px); overflow: hidden; }
+.rides-track { display: flex; gap: clamp(16px, 2vw, 28px); padding-inline: var(--gut); align-items: stretch; width: max-content; }
+.rides-intro { width: min(30vw, 420px); flex: none; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 8px; }
+.rides-intro h2 { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+.rides-intro p { color: var(--mist); margin: 18px 0 0; max-width: 30ch; }
+.card { position: relative; flex: none; width: min(30vw, 440px); height: min(70vh, 640px); border-radius: 18px; overflow: hidden; isolation: isolate; background: var(--night-2); }
+.card img { position: absolute; top: 0; left: -9%; width: 118%; height: 100%; max-width: none; object-fit: cover; z-index: -2; }
+.card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,18,38,0) 42%, rgba(10,18,38,.94) 100%); }
+.card .txt { position: absolute; left: 26px; right: 26px; bottom: 26px; }
+.card h3 { font-size: clamp(2rem, 2.8vw, 2.7rem); }
+.card p { margin: 8px 0 0; color: #CBD0DC; font-size: 1rem; line-height: 1.45; }
+.swipe { display: none; font-size: .95rem; color: var(--mist); margin-top: 14px; }
 
 /* Flughafen */
 .air { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 6vw, 96px); align-items: center; padding-top: 0; }
-.air .photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; }
-.dest { list-style: none; margin: 34px 0 0; padding: 0; border-top: 1px solid var(--line); }
-.dest li { display: grid; grid-template-columns: 3.4em 1fr auto; align-items: baseline; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.air .photo { overflow: hidden; border-radius: 18px; }
+.air .photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.dest { list-style: none; margin: 34px 0 0; padding: 0; }
+.dest li { position: relative; display: grid; grid-template-columns: 3.4em 1fr auto; align-items: baseline; gap: 16px; padding: 22px 0; }
+.dest li::before, .dest li:last-child::after { content: ""; position: absolute; left: 0; right: 0; height: 1px; background: var(--line); transform-origin: left; }
+.dest li::before { top: 0; }
+.dest li:last-child::after { bottom: 0; }
+.motion .dest li::before, .motion .dest li:last-child::after { transform: scaleX(var(--rule, 0)); }
 .dest .code { color: var(--sign); font-weight: 600; letter-spacing: .06em; }
-.dest .city { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.1; min-width: 0; }
+.dest .city { font-family: var(--serif); font-size: clamp(1.7rem, 3.2vw, 2.5rem); line-height: 1.1; min-width: 0; }
 .dest .km { color: var(--mist); font-size: 1.05rem; }
-.air .note { margin: 22px 0 0; color: var(--mist); max-width: 52ch; }
+.dest .km b { font-weight: 400; }
+.air .note { margin: 24px 0 0; color: var(--mist); max-width: 52ch; }
 
 /* Bildband */
-.band { position: relative; overflow: hidden; height: clamp(300px, 46vw, 640px); }
-.band img { position: absolute; left: 0; top: -10%; width: 100%; height: 120%; object-fit: cover; will-change: transform; }
-.band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--night) 0%, rgba(10,18,38,0) 22%, rgba(10,18,38,0) 78%, var(--night) 100%); }
+.band { position: relative; overflow: hidden; height: clamp(420px, 62vw, 820px); display: grid; place-items: center; isolation: isolate; }
+.band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.band::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at center, rgba(10,18,38,.25), rgba(10,18,38,.78)), linear-gradient(180deg, var(--night) 0%, rgba(10,18,38,0) 18%, rgba(10,18,38,0) 82%, var(--night) 100%); }
+.band h2 { font-size: clamp(2.6rem, 7.4vw, 6.6rem); text-align: center; padding-inline: var(--gut); line-height: 1.02; }
 
 /* Preise und Unternehmen */
 .info { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 112px); }
@@ -126,72 +179,91 @@ figure { margin: 0; }
 .facts dt { color: var(--mist); font-size: .95rem; padding-top: 16px; padding-right: 28px; }
 
 /* Kontakt */
-.contact { text-align: center; padding-top: 0; }
-.contact h2 { font-size: clamp(2.6rem, 7vw, 5.6rem); }
-.contact .tel { display: inline-block; margin-top: 26px; font-family: var(--serif); font-size: clamp(2rem, 5.4vw, 3.6rem); text-decoration: none; border-bottom: 2px solid var(--sign); line-height: 1.15; }
-.contact .btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
-.contact address { font-style: normal; color: var(--mist); margin-top: 30px; }
+.contact { text-align: center; padding-top: clamp(40px, 6vw, 80px); }
+.contact h2 { font-size: clamp(2.8rem, 8vw, 7rem); }
+.contact .tel { display: inline-block; margin-top: 26px; font-family: var(--serif); font-size: clamp(2.2rem, 6vw, 4.2rem); text-decoration: none; line-height: 1.15; position: relative; }
+.contact .tel::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: var(--sign); transform-origin: left; transition: transform .6s var(--ease); }
+.contact .tel:hover::after { transform: scaleX(.3); }
+.contact .btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 38px; }
+.contact address { font-style: normal; color: var(--mist); margin-top: 32px; }
 
 footer { border-top: 1px solid var(--line); color: var(--mist); font-size: .9rem; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 28px; padding-block: 24px calc(24px + env(safe-area-inset-bottom, 0px)); }
 footer nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 footer a { color: var(--ivory); text-underline-offset: 3px; }
-.preview { position: fixed; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 9; font-size: .75rem; font-weight: 600; background: var(--ivory); color: var(--night); border-radius: 999px; padding: 4px 10px; }
+.preview { position: fixed; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 50; font-size: .75rem; font-weight: 600; background: var(--ivory); color: var(--night); border-radius: 999px; padding: 4px 10px; }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero picture img { animation: none; }
-  .roof { animation-duration: 0s; animation-delay: 0s; }
-  .card img { transition: none; }
+/* Ausgangszustände nur mit Bewegung; Notfall-Einblendung, falls ein Skript ausfällt */
+.hero-media picture { display: block; height: 100%; }
+.motion .hero-copy, .motion .order { opacity: 0; animation: failsafeShow 0s 3.6s forwards; }
+.motion .roof { animation: failsafeRoof 0s 3.6s forwards; }
+@keyframes failsafeShow { to { opacity: 1; } }
+@keyframes failsafeRoof { to { background: var(--sign); color: #1A1708; } }
+.split .line, .split-line { padding-bottom: .06em; }
+
+@media (min-width: 1001px) {
+  .rides { height: 100svh; min-height: 680px; display: flex; align-items: center; padding-block: 0; }
 }
 @media (max-width: 1000px) {
   .hero-in { grid-template-columns: 1fr; gap: 20px; }
   .order { max-width: 520px; }
-  .cards { grid-template-columns: repeat(2, 1fr); }
   .air, .info { grid-template-columns: 1fr; }
   .air .photo img { aspect-ratio: 16 / 10; }
   .glance ul { grid-template-columns: 1fr 1fr; }
   .glance li:nth-child(3) { border-left: 0; padding-left: 0; }
   .glance li:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .rides { overflow: visible; }
+  .rides-track { width: auto; flex-wrap: wrap; padding-inline: 0; }
+  .rides-intro { width: 100%; padding-inline: var(--gut); margin-bottom: 26px; }
+  .rides-cards { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: var(--gut); scrollbar-width: none; width: 100%; }
+  .rides-cards::-webkit-scrollbar { display: none; }
+  .card { width: min(76vw, 360px); height: auto; aspect-ratio: 3 / 4.2; scroll-snap-align: start; scroll-margin-left: var(--gut); }
+  .card img { left: 0; width: 100%; }
+  .swipe { display: block; }
 }
-@media (min-width: 761px) { .swipe { display: none; } }
+@media (min-width: 1001px) { .rides-cards { display: contents; } }
 @media (max-width: 760px) {
   body { font-size: 17px; }
   .hero { min-height: 0; display: block; }
-  .hero picture img { position: relative; inset: auto; height: min(62svh, 560px); min-height: 380px; object-position: 50% 30%; }
+  .hero-media { position: relative; inset: auto; height: min(62svh, 560px); min-height: 380px; }
+  .hero-media img { object-position: 50% 30%; }
   .hero::after { bottom: auto; height: calc(min(62svh, 560px) + 1px); min-height: 381px; background: linear-gradient(180deg, rgba(10,18,38,.5) 0%, rgba(10,18,38,0) 30%, rgba(10,18,38,.2) 70%, var(--night) 100%); }
   .hero-in { margin-top: -96px; padding-top: 0; position: relative; }
   .nav-tel { padding: 8px 14px; font-size: .98rem; }
   .pair-f { grid-template-columns: 1fr; }
   .glance li { padding: 18px 14px; }
   .glance b { font-size: 1.2rem; }
-  .cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(var(--gut) * -1); padding-inline: var(--gut); scrollbar-width: none; }
-  .cards::-webkit-scrollbar { display: none; }
-  .card { flex: 0 0 76%; scroll-snap-align: start; scroll-margin-left: var(--gut); }
   .facts { grid-template-columns: 1fr; }
   .facts dt { border-bottom: 0; padding-bottom: 0; padding-right: 0; }
   .facts dd { padding-top: 2px; }
   .dest li { grid-template-columns: 3em 1fr auto; gap: 12px; }
+  .grain { opacity: .05; }
 }
 </style>
 </head>
 <body>
 
+<div class="loader" aria-hidden="true"><div class="sign">TAXI</div><p>Taxi Diez Adell, Neu-Ulm</p></div>
+<div class="grain" aria-hidden="true"></div>
+
 <nav class="nav" aria-label="Kopfzeile">
   <div class="wrap">
     <a class="brand" href="#start">Taxi Diez Adell</a>
-    <a class="nav-tel num" href="tel:+491737206433">0173 7206433</a>
+    <a class="nav-tel num magnet" href="tel:+491737206433">0173 7206433</a>
   </div>
 </nav>
 
 <main id="start">
   <header class="hero">
-    <picture>
-      <source media="(max-width: 760px)" srcset="img/muenster-nacht-hoch-800.jpg 800w, img/muenster-nacht-hoch-1200.jpg 1200w" sizes="100vw">
-      <img src="img/muenster-nacht-2400.jpg" srcset="img/muenster-nacht-1280.jpg 1280w, img/muenster-nacht-2400.jpg 2400w" sizes="100vw" width="2400" height="1350" alt="Der Turm des Ulmer Münsters am Abendhimmel">
-    </picture>
+    <div class="hero-media">
+      <picture>
+        <source media="(max-width: 760px)" srcset="img/muenster-nacht-hoch-800.jpg 800w, img/muenster-nacht-hoch-1200.jpg 1200w" sizes="100vw">
+        <img src="img/muenster-nacht-2400.jpg" srcset="img/muenster-nacht-1280.jpg 1280w, img/muenster-nacht-2400.jpg 2400w" sizes="100vw" width="2400" height="1350" alt="Der Turm des Ulmer Münsters am Abendhimmel">
+      </picture>
+    </div>
     <div class="wrap hero-in">
-      <div>
-        <h1>Ihr Taxi in Neu-Ulm</h1>
+      <div class="hero-copy">
+        <h1 class="split">Ihr Taxi in Neu-Ulm</h1>
         <p class="lead">Fahrten in Neu-Ulm und Ulm, nach Senden und zu den Flughäfen Memmingen, Stuttgart und München. Bestellen Sie per Telefon oder WhatsApp.</p>
         <p class="owner">Inhaber Ignacio Diez Adell, Wagen 302</p>
       </div>
@@ -213,6 +285,14 @@ footer a { color: var(--ivory); text-underline-offset: 3px; }
     </div>
   </header>
 
+  <section class="marquee" aria-label="Fahrtziele">
+    <p class="sr">Neu-Ulm, Ulm, Senden, Memmingen, Stuttgart, München</p>
+    <div class="marquee-track" aria-hidden="true">
+      <div class="marquee-group"><span class="fill">Neu-Ulm</span><i></i><span>Ulm</span><i></i><span>Senden</span><i></i><span class="fill">Memmingen</span><i></i><span>Stuttgart</span><i></i><span>München</span><i></i></div>
+      <div class="marquee-group"><span class="fill">Neu-Ulm</span><i></i><span>Ulm</span><i></i><span>Senden</span><i></i><span class="fill">Memmingen</span><i></i><span>Stuttgart</span><i></i><span>München</span><i></i></div>
+    </div>
+  </section>
+
   <section class="glance" aria-label="Auf einen Blick">
     <div class="wrap">
       <ul>
@@ -224,46 +304,50 @@ footer a { color: var(--ivory); text-underline-offset: 3px; }
     </div>
   </section>
 
-  <section class="sec wrap" aria-labelledby="h-anlass">
-    <div class="sec-head">
-      <h2 id="h-anlass">Für jeden Anlass</h2>
-      <span class="swipe">Zum Blättern wischen</span>
-    </div>
-    <div class="cards">
-      <article class="card"><img src="img/karte-flughafen-600.jpg" srcset="img/karte-flughafen-600.jpg 600w, img/karte-flughafen-900.jpg 900w" sizes="(max-width: 760px) 76vw, (max-width: 1000px) 46vw, 300px" width="600" height="840" loading="lazy" alt="Lichtspuren auf einer Autobahn bei Nacht"><div class="txt"><h3>Flughafen</h3><p>Memmingen, Stuttgart, München</p></div></article>
-      <article class="card"><img src="img/karte-bahnhof-600.jpg" srcset="img/karte-bahnhof-600.jpg 600w, img/karte-bahnhof-900.jpg 900w" sizes="(max-width: 760px) 76vw, (max-width: 1000px) 46vw, 300px" width="600" height="840" loading="lazy" alt="Leuchtendes Taxischild auf einem Wagendach bei Nacht"><div class="txt"><h3>Bahnhof</h3><p>Neu-Ulm und Ulm Hauptbahnhof</p></div></article>
-      <article class="card"><img src="img/karte-arzt-600.jpg" srcset="img/karte-arzt-600.jpg 600w, img/karte-arzt-900.jpg 900w" sizes="(max-width: 760px) 76vw, (max-width: 1000px) 46vw, 300px" width="600" height="840" loading="lazy" alt="Blick von der Rückbank durch die Windschutzscheibe auf eine Straße bei Nacht"><div class="txt"><h3>Arzt und Klinik</h3><p>Als Privatfahrt, ohne Abrechnung mit der Krankenkasse</p></div></article>
-      <article class="card"><img src="img/karte-heimweg-600.jpg" srcset="img/karte-heimweg-600.jpg 600w, img/karte-heimweg-900.jpg 900w" sizes="(max-width: 760px) 76vw, (max-width: 1000px) 46vw, 300px" width="600" height="840" loading="lazy" alt="Geschwungene Lichtspuren auf einer Stadtstraße am Abend"><div class="txt"><h3>Heimweg</h3><p>Nach Feier, Konzert oder Spätschicht</p></div></article>
+  <section class="rides" aria-labelledby="h-anlass">
+    <div class="rides-track">
+      <div class="rides-intro">
+        <h2 id="h-anlass" class="split">Für jeden Anlass</h2>
+        <p>Vom Bahnhof nach Hause, zum Termin in der Klinik oder früh am Morgen zum Flughafen: Sie bestellen, wir holen Sie ab.</p>
+        <span class="swipe">Zum Blättern wischen</span>
+      </div>
+      <div class="rides-cards">
+        <article class="card"><img src="img/karte-flughafen-900.jpg" srcset="img/karte-flughafen-600.jpg 600w, img/karte-flughafen-900.jpg 900w" sizes="(max-width: 1000px) 76vw, 30vw" width="900" height="1260" loading="lazy" alt="Lichtspuren auf einer Autobahn bei Nacht"><div class="txt"><h3>Flughafen</h3><p>Memmingen, Stuttgart, München</p></div></article>
+        <article class="card"><img src="img/karte-bahnhof-900.jpg" srcset="img/karte-bahnhof-600.jpg 600w, img/karte-bahnhof-900.jpg 900w" sizes="(max-width: 1000px) 76vw, 30vw" width="900" height="1260" loading="lazy" alt="Leuchtendes Taxischild auf einem Wagendach bei Nacht"><div class="txt"><h3>Bahnhof</h3><p>Neu-Ulm und Ulm Hauptbahnhof</p></div></article>
+        <article class="card"><img src="img/karte-arzt-900.jpg" srcset="img/karte-arzt-600.jpg 600w, img/karte-arzt-900.jpg 900w" sizes="(max-width: 1000px) 76vw, 30vw" width="900" height="1260" loading="lazy" alt="Blick von der Rückbank durch die Windschutzscheibe auf eine Straße bei Nacht"><div class="txt"><h3>Arzt und Klinik</h3><p>Als Privatfahrt, ohne Abrechnung mit der Krankenkasse</p></div></article>
+        <article class="card"><img src="img/karte-heimweg-900.jpg" srcset="img/karte-heimweg-600.jpg 600w, img/karte-heimweg-900.jpg 900w" sizes="(max-width: 1000px) 76vw, 30vw" width="900" height="1260" loading="lazy" alt="Geschwungene Lichtspuren auf einer Stadtstraße am Abend"><div class="txt"><h3>Heimweg</h3><p>Nach Feier, Konzert oder Spätschicht</p></div></article>
+      </div>
     </div>
   </section>
 
   <section class="sec wrap air" aria-labelledby="h-flug">
-    <figure class="photo">
+    <figure class="photo reveal">
       <img src="img/autobahn-abend-800.jpg" srcset="img/autobahn-abend-800.jpg 800w, img/autobahn-abend-1200.jpg 1200w" sizes="(max-width: 1000px) 100vw, 40vw" width="800" height="1000" loading="lazy" alt="Autobahn in der Abenddämmerung mit Lichtspuren">
     </figure>
     <div>
-      <h2 id="h-flug">Zum Flughafen</h2>
+      <h2 id="h-flug" class="split">Zum Flughafen</h2>
       <ul class="dest">
-        <li><span class="code">FMM</span><span class="city">Memmingen</span><span class="km num">ca. 60 km</span></li>
-        <li><span class="code">STR</span><span class="city">Stuttgart</span><span class="km num">ca. 90 km</span></li>
-        <li><span class="code">MUC</span><span class="city">München</span><span class="km num">ca. 160 km</span></li>
+        <li><span class="code">FMM</span><span class="city">Memmingen</span><span class="km num">ca. <b class="count" data-to="60">60</b> km</span></li>
+        <li><span class="code">STR</span><span class="city">Stuttgart</span><span class="km num">ca. <b class="count" data-to="90">90</b> km</span></li>
+        <li><span class="code">MUC</span><span class="city">München</span><span class="km num">ca. <b class="count" data-to="160">160</b> km</span></li>
       </ul>
       <p class="note">Entfernungen ab Neu-Ulm. Den Fahrpreis zum Flughafen können Sie vor der Fahrt mit uns vereinbaren. Für frühe Flüge bestellen Sie am besten am Vortag.</p>
     </div>
   </section>
 
-  <div class="band" aria-hidden="true">
-    <img id="band" src="img/tunnel-2600.jpg" srcset="img/tunnel-1400.jpg 1400w, img/tunnel-2600.jpg 2600w" sizes="100vw" width="2600" height="834" loading="lazy" alt="">
-  </div>
+  <section class="band" aria-label="Fahrgefühl">
+    <img src="img/tunnel-2600.jpg" srcset="img/tunnel-1400.jpg 1400w, img/tunnel-2600.jpg 2600w" sizes="100vw" width="2600" height="834" loading="lazy" alt="">
+    <h2 class="words">Sie lehnen sich zurück. Wir fahren.</h2>
+  </section>
 
   <section class="sec wrap info" aria-label="Preise und Unternehmen">
     <div>
-      <h2>Preise</h2>
+      <h2 class="split">Preise</h2>
       <p>Im Landkreis Neu-Ulm und in der Stadt Ulm gilt die Taxitarifordnung des Landkreises Neu-Ulm. Der Fahrpreis wird mit dem Taxameter berechnet.</p>
       <p>Für Fahrten darüber hinaus, etwa zu einem Flughafen, können Sie den Preis vor Fahrtbeginn mit uns vereinbaren. Ohne Vereinbarung gilt auch dort der Taxameter.</p>
     </div>
     <div>
-      <h2>Das Unternehmen</h2>
+      <h2 class="split">Das Unternehmen</h2>
       <dl class="facts">
         <dt>Inhaber</dt><dd>Ignacio Diez Adell</dd>
         <dt>Betriebssitz</dt><dd>Julius-Rohm-Platz 1, 89231 Neu-Ulm</dd>
@@ -276,11 +360,11 @@ footer a { color: var(--ivory); text-underline-offset: 3px; }
   </section>
 
   <section class="sec wrap contact" aria-labelledby="h-kontakt">
-    <h2 id="h-kontakt">Wohin darf es gehen?</h2>
+    <h2 id="h-kontakt" class="split">Wohin darf es gehen?</h2>
     <a class="tel num" href="tel:+491737206433">0173 7206433</a>
     <div class="btns">
-      <a class="btn btn-sign" href="tel:+491737206433">Anrufen</a>
-      <a class="btn btn-ghost" href="https://wa.me/491737206433" rel="noopener">WhatsApp schreiben</a>
+      <a class="btn btn-sign magnet" href="tel:+491737206433">Anrufen</a>
+      <a class="btn btn-ghost magnet" href="https://wa.me/491737206433" rel="noopener">WhatsApp schreiben</a>
     </div>
     <address>Taxi Diez Adell, Julius-Rohm-Platz 1, 89231 Neu-Ulm</address>
   </section>
@@ -296,6 +380,7 @@ footer a { color: var(--ivory); text-underline-offset: 3px; }
 <div class="preview" aria-hidden="true">Vorschau</div>
 
 <script>
+// Bestellformular: baut eine WhatsApp-Nachricht, unabhängig von den Animationen
 (function () {
   var f = document.getElementById('ride'), hint = document.getElementById('hint');
   var p = function (n) { return String(n).padStart(2, '0'); };
@@ -313,23 +398,13 @@ footer a { color: var(--ivory); text-underline-offset: 3px; }
     hint.textContent = 'WhatsApp wird geöffnet …';
     window.location.href = 'https://wa.me/491737206433?text=' + encodeURIComponent(msg);
   });
-
-  // ruhige Parallaxe im Bildband
-  var img = document.getElementById('band');
-  if (img && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var band = img.parentElement, ticking = false;
-    var move = function () {
-      var r = band.getBoundingClientRect(), vh = window.innerHeight;
-      if (r.bottom > 0 && r.top < vh) {
-        var k = (r.top + r.height / 2 - vh / 2) / vh;
-        img.style.transform = 'translateY(' + (k * -7).toFixed(2) + '%)';
-      }
-      ticking = false;
-    };
-    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
-    move();
-  }
 })();
 </script>
+<!-- GSAP (GreenSock Standard License) und Lenis (MIT), lokal gehostet -->
+<script src="js/gsap.min.js" defer></script>
+<script src="js/ScrollTrigger.min.js" defer></script>
+<script src="js/SplitText.min.js" defer></script>
+<script src="js/lenis.min.js" defer></script>
+<script src="js/motion.js" defer></script>
 </body>
 </html>
